@@ -9,8 +9,8 @@ namespace FirstApp.Context
     {
         public EfcContext()
         {
-            Database.EnsureDeleted();
-            Database.EnsureCreated();
+            //Database.EnsureDeleted();
+            //Database.EnsureCreated();
         }
 
         public EfcContext(DbContextOptions<EfcContext> options)
@@ -22,6 +22,7 @@ namespace FirstApp.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            optionsBuilder.UseSqlServer(@"Server=MWW-020;Database=EFC;Trusted_Connection=True;");
             optionsBuilder.UseLoggerFactory(MyLoggerFactory);
         }
 

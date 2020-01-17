@@ -25,9 +25,7 @@ namespace FirstApp
             string connectionString = config.GetConnectionString("DefaultConnection");
 
             var optionsBuilder = new DbContextOptionsBuilder<EfcContext>();
-            var options = optionsBuilder
-                .UseSqlServer(connectionString)
-                .Options;
+            var options = optionsBuilder.UseSqlServer(connectionString).Options;
 
 
             // Добавление
