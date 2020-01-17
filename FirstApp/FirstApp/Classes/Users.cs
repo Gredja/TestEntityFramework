@@ -1,4 +1,4 @@
-﻿namespace FirstApp
+﻿namespace FirstApp.Classes
 {
     public partial class User
     {

@@ -2,7 +2,7 @@
 using System.IO;
 using Microsoft.Extensions.Logging;
 
-namespace FirstApp
+namespace FirstApp.Logging
 {
     public class MyLoggerProvider : ILoggerProvider
 

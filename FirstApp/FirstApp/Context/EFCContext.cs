@@ -1,17 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FirstApp.Classes;
+using FirstApp.Logging;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace FirstApp
+namespace FirstApp.Context
 {
-    public partial class EFCContext : DbContext
+    public partial class EfcContext : DbContext
     {
-        public EFCContext()
+        public EfcContext()
         {
             Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 
-        public EFCContext(DbContextOptions<EFCContext> options)
+        public EfcContext(DbContextOptions<EfcContext> options)
             : base(options)
         {
         }
@@ -32,7 +34,7 @@ namespace FirstApp
 
         public static readonly ILoggerFactory MyLoggerFactory = LoggerFactory.Create(builder =>
         {
-            builder.AddFilter((category, level) => category == DbLoggerCategory.Database.Command.Name && level == LogLevel.Error)
+            builder.AddFilter((category, level) => category == DbLoggerCategory.Database.Command.Name && level == LogLevel.Information)
                 .AddProvider(new MyLoggerProvider());
         });
     }

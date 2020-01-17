@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using FirstApp.Classes;
+using FirstApp.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
@@ -22,14 +24,14 @@ namespace FirstApp
             // получаем строку подключения
             string connectionString = config.GetConnectionString("DefaultConnection");
 
-            var optionsBuilder = new DbContextOptionsBuilder<EFCContext>();
+            var optionsBuilder = new DbContextOptionsBuilder<EfcContext>();
             var options = optionsBuilder
                 .UseSqlServer(connectionString)
                 .Options;
 
 
             // Добавление
-            using (var db = new EFCContext(options))
+            using (var db = new EfcContext(options))
             {
                 User user1 = new User { Name = "Tom", Age = 33 };
                 User user2 = new User { Name = "Alice", Age = 26 };
@@ -41,7 +43,7 @@ namespace FirstApp
             }
 
             // получение
-            using (var db = new EFCContext(options))
+            using (var db = new EfcContext(options))
             {
                 // получаем объекты из бд и выводим на консоль
                 var users = db.Users.ToList();
@@ -53,7 +55,7 @@ namespace FirstApp
             }
 
             // Редактирование
-            using (var db = new EFCContext(options))
+            using (var db = new EfcContext(options))
             {
                 // получаем первый объект
                 User user = db.Users.FirstOrDefault();
@@ -75,7 +77,7 @@ namespace FirstApp
             }
 
             // Удаление
-            using (var db = new EFCContext(options))
+            using (var db = new EfcContext(options))
             {
                 // получаем первый объект
                 User user = db.Users.FirstOrDefault();
