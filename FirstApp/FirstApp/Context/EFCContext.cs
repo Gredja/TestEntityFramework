@@ -9,21 +9,26 @@ namespace FirstApp.Context
     {
         public EfcContext()
         {
-            //Database.EnsureDeleted();
-            //Database.EnsureCreated();
+
         }
 
         public EfcContext(DbContextOptions<EfcContext> options)
             : base(options)
         {
+            //Database.EnsureDeleted();
+           // Database.EnsureCreated();
         }
 
         public virtual DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+
+
             optionsBuilder.UseSqlServer(@"Server=MWW-020;Database=EFC;Trusted_Connection=True;");
+
             optionsBuilder.UseLoggerFactory(MyLoggerFactory);
+            base.OnConfiguring(optionsBuilder);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
