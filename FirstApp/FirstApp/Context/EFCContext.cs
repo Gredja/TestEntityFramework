@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FirstApp.Context
 {
-    public partial class EfcContext : DbContext
+    public sealed partial class EfcContext : DbContext
     {
         public EfcContext()
         {
@@ -16,15 +16,14 @@ namespace FirstApp.Context
             : base(options)
         {
             //Database.EnsureDeleted();
-           // Database.EnsureCreated();
+            // Database.EnsureCreated();
         }
 
-        public virtual DbSet<User> Users { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Sex> Sex { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-
-
             optionsBuilder.UseSqlServer(@"Server=MWW-020;Database=EFC;Trusted_Connection=True;");
 
             optionsBuilder.UseLoggerFactory(MyLoggerFactory);

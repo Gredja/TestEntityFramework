@@ -22,7 +22,7 @@ namespace FirstApp
             // создаем конфигурацию
             var config = builder.Build();
             // получаем строку подключения
-            string connectionString = config.GetConnectionString("DefaultConnection");
+            var connectionString = config.GetConnectionString("DefaultConnection");
 
             var optionsBuilder = new DbContextOptionsBuilder<EfcContext>();
             var options = optionsBuilder.UseSqlServer(connectionString, providerOptions => providerOptions.CommandTimeout(60)).Options;
@@ -33,10 +33,9 @@ namespace FirstApp
             // Добавление
             using (var db = new EfcContext(options))
             {
-                User user1 = new User { Name = "Tom", Age = 33 };
-                User user2 = new User { Name = "Alice", Age = 26 };
+                var user1 = new User { Name = "Tom", Age = 33, IsMarried = true };
+                var user2 = new User { Name = "Alice", Age = 26, IsMarried = false };
 
-                // Добавление
                 db.Users.Add(user1);
                 db.Users.Add(user2);
                 db.SaveChanges();
@@ -48,7 +47,7 @@ namespace FirstApp
                 // получаем объекты из бд и выводим на консоль
                 var users = db.Users.ToList();
                 Console.WriteLine("Данные после добавления:");
-                foreach (User u in users)
+                foreach (var u in users)
                 {
                     Console.WriteLine($"{u.Id}.{u.Name} - {u.Age}");
                 }
@@ -58,29 +57,28 @@ namespace FirstApp
             using (var db = new EfcContext(options))
             {
                 // получаем первый объект
-                User user = db.Users.FirstOrDefault();
+                var user = db.Users.FirstOrDefault();
                 if (user != null)
                 {
                     user.Name = "Bob";
                     user.Age = 44;
-                    //обновляем объект
                     db.Users.Update(user);
                     db.SaveChanges();
                 }
-                // выводим данные после обновления
+
                 Console.WriteLine("\nДанные после редактирования:");
                 var users = db.Users.ToList();
-                foreach (User u in users)
+                foreach (var u in users)
                 {
                     Console.WriteLine($"{u.Id}.{u.Name} - {u.Age}");
                 }
             }
 
-            // Удаление
+
             using (var db = new EfcContext(options))
             {
                 // получаем первый объект
-                User user = db.Users.FirstOrDefault();
+                var user = db.Users.FirstOrDefault();
                 if (user != null)
                 {
                     //удаляем объект
@@ -90,11 +88,13 @@ namespace FirstApp
                 // выводим данные после обновления
                 Console.WriteLine($"Delete");
                 var users = db.Users.ToList();
-                foreach (User u in users)
+                foreach (var u in users)
                 {
                     Console.WriteLine($"{u.Id}.{u.Name} - {u.Age}");
                 }
             }
+
+
             Console.Read();
         }
     }
