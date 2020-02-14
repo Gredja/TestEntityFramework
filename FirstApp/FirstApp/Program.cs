@@ -1,0 +1,102 @@
+﻿using System;
+using System.IO;
+using System.Linq;
+using FirstApp.Classes;
+using FirstApp.Context;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+
+namespace FirstApp
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var builder = new ConfigurationBuilder();
+            // установка пути к текущему каталогу
+            builder.SetBasePath(Directory.GetCurrentDirectory());
+            // получаем конфигурацию из файла appsettings.json
+            builder.AddJsonFile("appsettings.json");
+            // создаем конфигурацию
+            var config = builder.Build();
+            // получаем строку подключения
+            var connectionString = config.GetConnectionString("DefaultConnection");
+
+            var optionsBuilder = new DbContextOptionsBuilder<EfcContext>();
+            var options = optionsBuilder.UseSqlServer(connectionString, providerOptions => providerOptions.CommandTimeout(60)).Options;
+            var context = new EfcContext(options);
+            context.Database.Migrate();
+
+
+            // Добавление
+            using (var db = new EfcContext(options))
+            {
+                var user1 = new User { Name = "Tom", Age = 33, IsMarried = true };
+                var user2 = new User { Name = "Alice", Age = 26, IsMarried = false };
+
+                db.Users.Add(user1);
+                db.Users.Add(user2);
+                db.SaveChanges();
+            }
+
+            // получение
+            using (var db = new EfcContext(options))
+            {
+                // получаем объекты из бд и выводим на консоль
+                var users = db.Users.ToList();
+                Console.WriteLine("Данные после добавления:");
+                foreach (var u in users)
+                {
+                    Console.WriteLine($"{u.Id}.{u.Name} - {u.Age}");
+                }
+            }
+
+            // Редактирование
+            using (var db = new EfcContext(options))
+            {
+                // получаем первый объект
+                var user = db.Users.FirstOrDefault();
+                if (user != null)
+                {
+                    user.Name = "Bob";
+                    user.Age = 44;
+                    db.Users.Update(user);
+                    db.SaveChanges();
+                }
+
+                Console.WriteLine("\nДанные после редактирования:");
+                var users = db.Users.ToList();
+                foreach (var u in users)
+                {
+                    Console.WriteLine($"{u.Id}.{u.Name} - {u.Age}");
+                }
+            }
+
+
+            using (var db = new EfcContext(options))
+            {
+                // получаем первый объект
+                var user = db.Users.FirstOrDefault();
+                if (user != null)
+                {
+                    //удаляем объект
+                    db.Users.Remove(user);
+                    db.SaveChanges();
+                }
+                // выводим данные после обновления
+                Console.WriteLine($"Delete");
+                var users = db.Users.ToList();
+                foreach (var u in users)
+                {
+                    Console.WriteLine($"{u.Id}.{u.Name} - {u.Age}");
+                }
+            }
+
+
+            Console.Read();
+        }
+    }
+}
+
