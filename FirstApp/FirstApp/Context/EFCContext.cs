@@ -17,10 +17,14 @@ namespace FirstApp.Context
         {
             //Database.EnsureDeleted();
             // Database.EnsureCreated();
+
+            Database.Migrate();
         }
 
         public DbSet<User> Users { get; set; }
         public DbSet<Sex> Sex { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Country> Countries { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -32,7 +36,7 @@ namespace FirstApp.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            OnModelCreatingPartial(modelBuilder);
+            modelBuilder.Ignore<Company>();
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
