@@ -3,39 +3,22 @@ using FirstApp.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FirstApp.Migrations
 {
     [DbContext(typeof(EfcContext))]
-    partial class EfcContextModelSnapshot : ModelSnapshot
+    [Migration("20200214114236_AddtableAttribyte")]
+    partial class AddtableAttribyte
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("FirstApp.Classes.AnotherUser", b =>
-                {
-                    b.Property<int>("Ident")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Age")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsMarried")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Ident", "Name");
-
-                    b.ToTable("AnotherUser");
-                });
 
             modelBuilder.Entity("FirstApp.Classes.Country", b =>
                 {
@@ -99,7 +82,6 @@ namespace FirstApp.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .HasColumnName("UserName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

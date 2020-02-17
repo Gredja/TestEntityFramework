@@ -37,6 +37,8 @@ namespace FirstApp.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Ignore<Company>();
+
+            modelBuilder.Entity<Product>().Ignore(x => x.Rate);
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
